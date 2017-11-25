@@ -104,8 +104,8 @@ public class SortingArrays extends Thread {
 				t2=new SortingArrays(choice);
 				t3=new SortingArrays(choice);
 				t1.start();
-				t2.start();
-				t3.start();
+				//t2.start();
+				//t3.start();
 			
 		}while(choice!=8);
 	}

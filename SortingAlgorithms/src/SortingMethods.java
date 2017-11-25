@@ -1,7 +1,10 @@
 
-public class SortingMethods{
+public class SortingMethods extends Thread{
 	
 	
+	public void run(){
+		
+	}
 	public void bublleSort(int[] ary){
 		boolean swapped;
 		for(int i=0;i<ary.length-1;i++){
@@ -136,8 +139,29 @@ public class SortingMethods{
 		if(low<high){
 			int medium=(low+high)/2;
 			
-			mergeSort(ary, low, medium);
-			mergeSort(ary,medium+1,high);
+			Thread rightSide=new Thread(){
+				public void run(){
+					mergeSort(ary, low, medium);
+				}
+			};
+			
+			Thread leftSide=new Thread(){
+				public void run(){
+					mergeSort(ary,medium+1,high);
+				}
+			};
+			
+			rightSide.start();
+			leftSide.start();
+			try{
+				rightSide.join();
+				leftSide.join();	
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			/*mergeSort(ary, low, medium);
+			mergeSort(ary,medium+1,high);*/
 			
 			merge(ary, low, medium, high);
 		}
