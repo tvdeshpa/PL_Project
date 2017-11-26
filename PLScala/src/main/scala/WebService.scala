@@ -4,7 +4,7 @@ import scala.io.Source
 import scala.util.parsing.json.JSON
 
 class WebService {
-  val API_KEY = "b1b15e88fa797225412429c1c50c122a1"
+  val API_KEY = "place your key here"
   def webServiceCall(zipCode: Int): String = {
     val jsonString = Source.fromURL(new URL("http://samples.openweathermap.org/data/2.5/weather?zip=" + zipCode +
                                               ",us&appid=" + API_KEY)).mkString
