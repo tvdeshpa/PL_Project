@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
 
 public class WebServiceWorker extends Thread{
 
-	private static final String API_KEY = "b1b15e88fa797225412429c1c50c122a1";
+	private static final String API_KEY = "place your key here";
 	int zipCode;
 	public WebServiceWorker() {
 		
