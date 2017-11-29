@@ -25,12 +25,16 @@ object MatrixMultiplication extends App{
 
   val startTime = System.currentTimeMillis();
   var result1 = sequentialMatrixMultiplication(array1, array2, row, col)
+  var result2 = sequentialMatrixMultiplication(array1, array2, row, col)
+  var result3 = sequentialMatrixMultiplication(array1, array2, row, col)
   val endTime = System.currentTimeMillis();
   val duration = endTime - startTime
   println(" Time taken for sequential : " + duration)
 
   val startTime2 = System.currentTimeMillis();
   var result4 = parallelMatrixMultiplication(array1, array2, row, col)
+  var result5 = parallelMatrixMultiplication(array1, array2, row, col)
+  var result6 = parallelMatrixMultiplication(array1, array2, row, col)
   val endTime2 = System.currentTimeMillis();
   val duration2 = endTime2 - startTime2
   println(" Time taken for Parallel : " + duration2)
@@ -39,13 +43,15 @@ object MatrixMultiplication extends App{
                                      row:Int, col:Int): Array[Array[Int]] ={
     var result = ofDim[Int](row,col)
 
-    for (i <- (0 to row - 1)) {
-      for(j <- (0 to col -1 )){
-        for(k <- (0 to row - 1)){
-            result(i)(j) += array1(i)(k) * array2(k)(j)
-        }
+    (0 until row*row).foreach( x =>{
+      val i = x/row
+      val k = x % row
+      var j = 0
+      while(j<row){
+        result(i)(j) += array1(i)(k) * array2(k)(j)
+        j += 1
       }
-    }
+    })
     result
   }
 
