@@ -1,83 +1,48 @@
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MergeSort {
 
 
-    private static final int LIST_SIZE = 1000000;
+    private static final int LIST_SIZE = 10000000;
     private static final int MAX_VALUE = 1000;
 
     public static void main(String args[]) {
 
-        Integer[] result;
-        MergeSort sort = new MergeSort();
+        int[] result;
 
-        Integer[] items = new Integer[LIST_SIZE];
+        int[] items = new int[LIST_SIZE];
         Random rand = new Random();
         for(int i = 0; i < LIST_SIZE; i++) {
             items[i] =rand.nextInt() % MAX_VALUE;
         }
 
+        //Sequential
+        MergeSortWorker sort = new MergeSortWorker(items);
         long startTime = System.currentTimeMillis();
         sort.mergeSort(items);
         sort.mergeSort(items);
         sort.mergeSort(items);
         long endTime = System.currentTimeMillis();
-
-
         System.out.println("Time Taken Sequential :: "+ (endTime - startTime));
 
+        //Parallel
 
-    }
-
-    public Integer[] mergeSort(Integer[] items) {
-        if(items.length == 1)
-            return items;
-        //System.out.println("Inside");
-        int splitPoint = items.length / 2;
-        Integer[] leftArray = new Integer[splitPoint];
-        Integer[] rightArray = new Integer[items.length - splitPoint];
-        int traverseIndex = 0;
-        for(int i = 0; i < splitPoint; i++) {
-            leftArray[i] = items[traverseIndex];
-            traverseIndex++;
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        System.out.println("Parallel Execution ********");
+        long parStartTime = System.currentTimeMillis();
+        for(int i = 0; i < 3; i ++) {
+            Runnable webWorker = new MergeSortWorker(items);
+            executor.execute(webWorker);
         }
-
-        for(int i = 0; i < (items.length - splitPoint); i++) {
-            rightArray[i] = items[traverseIndex];
-            traverseIndex++;
+        executor.shutdown();
+        while (!executor.isTerminated()) {
         }
+        long parEndTime = System.currentTimeMillis();
 
-        return merge(mergeSort(leftArray), mergeSort(rightArray));
-    }
+        System.out.println("Time Taken for Parallel :: " + (parEndTime - parStartTime));
 
-    private Integer[] merge(Integer[] left, Integer[] right) {
-        int leftIndex = 0;
-        int rightIndex = 0;
-        Integer[] merged = new Integer[left.length + right.length];
-        int mergedIndex = 0;
-
-        while (leftIndex < left.length && rightIndex < right.length) {
-            if (left[leftIndex] <= right[rightIndex]) {
-                merged[mergedIndex] = left[leftIndex];
-                leftIndex += 1;
-            } else {
-                merged[mergedIndex] = right[rightIndex];
-                rightIndex += 1;
-            }
-            mergedIndex++;
-        }
-        if (leftIndex == left.length) {
-            for(int i = rightIndex; i < right.length; i++) {
-                merged[mergedIndex] = right[i];
-                mergedIndex++;
-            }
-        } else {
-            for(int i = leftIndex; i < left.length; i++) {
-                merged[mergedIndex] = left[i];
-                mergedIndex++;
-            }
-        }
-        return merged;
 
     }
 
