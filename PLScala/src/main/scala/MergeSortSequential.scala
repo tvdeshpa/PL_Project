@@ -30,9 +30,9 @@ object MergeSortSequential extends App {
 
   def merge(left: Vector[Int], right: Vector[Int]): Vector[Int] = {
 
-    if(right.size == 1)
+    if(right.size == 0 && left.size > 0)
       left
-    else if(left.size == 1)
+    else if(left.size == 0 && right.size > 0)
       right
     else {
       if(left.head < right.head)
