@@ -2,7 +2,7 @@ import scala.util.Random
 
 object MergeSortSequential extends App {
 
-  var size = 1000000
+  var size = 10000000
   var array1 = Vector[Int]()
 
   val arrayItems = Vector.fill(size)(Random.nextInt(1000))
@@ -29,28 +29,18 @@ object MergeSortSequential extends App {
   }
 
   def merge(left: Vector[Int], right: Vector[Int]): Vector[Int] = {
-    var leftIndex = 0
-    var rightIndex = 0
-    var merged = Vector[Int]()
-    var mergedIndex = 0
-    while (leftIndex < left.length && rightIndex < right.length) {
-      if (left(leftIndex) <= right(rightIndex)) {
-        merged :+= left(leftIndex)
-        leftIndex += 1
-      } else {
-        merged :+= right(rightIndex)
-        rightIndex += 1
-      }
+
+    if(right.size == 1)
+      left
+    else if(left.size == 1)
+      right
+    else {
+      if(left.head < right.head)
+        left.head +: merge(left.tail, right)
+      else
+        right.head +: merge(left, right.tail)
     }
-    if (leftIndex == left.length) {
-      merged ++ right.slice(rightIndex, right.length)
-    } else {
-      merged ++ left.slice(leftIndex, left.length)
-    }
+
   }
-
-
-
-
 
 }
