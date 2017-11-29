@@ -78,10 +78,20 @@ public class MatrixMultiplication implements Runnable {
         try{
             int[][] rslt = new int[row][col];
 
+            for(int x = 0; x < row*col; x++ ){
+                int i = x / row;
+                int k = x % row;
+                int j = 0;
 
-            i=0;
+                while(j < row) {
+                    rslt[i][j] += array1[i][k] * array2[k][j];
+                    j++;
+                }
+            }
+
+            //i=0;
             //Call for recursive method.
-            matrixMultiplicaitonRec(row, col, array1, array2, rslt);
+            //matrixMultiplicaitonRec(row, col, array1, array2, rslt);
 
         }catch(Exception e){
             System.out.println("Error in executing matrix multiplication:"+e.getMessage());
