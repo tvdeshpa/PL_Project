@@ -41,16 +41,16 @@ public class MatrixMultiplication implements Runnable {
         }
 
         /* Sequential */
-        long startTime3 = System.nanoTime();
+        long startTime3 = System.currentTimeMillis();
         matrixMultiply(array1, array2, row, col);
         matrixMultiply(array1, array2, row, col);
         matrixMultiply(array1, array2, row, col);
-        long endTime3= System.nanoTime();
+        long endTime3= System.currentTimeMillis();
         long duration = endTime3 - startTime3;
         System.out.println("Time taken for Sequential : " + duration);
 
         /* Concurrent */
-        long startTime2= System.nanoTime();
+        long startTime2= System.currentTimeMillis();
         MatrixMultiplication ms=new MatrixMultiplication(array1, array2, row, col);
         Thread myThread1=new Thread(ms);
         Thread myThread2=new Thread(ms);
@@ -63,7 +63,10 @@ public class MatrixMultiplication implements Runnable {
         myThread2.start();
         myThread3.start();
 
-        long endTime2= System.nanoTime();
+        while (myThread1.isAlive() || myThread2.isAlive() || myThread3.isAlive()) {
+            //wait for all threads to finish
+        }
+        long endTime2= System.currentTimeMillis();
         long duration2 = endTime2 - startTime2;
         System.out.println("Time taken for parallel computation : " + duration2);
 
@@ -71,7 +74,7 @@ public class MatrixMultiplication implements Runnable {
 
 
     //matrix initialization which will call the recursive function. Complexity of the algorithm is O(n^3)
-    public static synchronized void matrixMultiply(int[][] array1, int[][] array2, int row, int col){
+    public static void matrixMultiply(int[][] array1, int[][] array2, int row, int col){
         try{
             int[][] rslt = new int[row][col];
 
@@ -85,7 +88,7 @@ public class MatrixMultiplication implements Runnable {
         }
     }
     //
-    public static synchronized void matrixMultiplicaitonRec(int row,int col,int ary1[][],
+    public static void matrixMultiplicaitonRec(int row,int col,int ary1[][],
                                                             int ary2[][],int result[][]){
         try{
             for (int i=0; i<row; i++){
