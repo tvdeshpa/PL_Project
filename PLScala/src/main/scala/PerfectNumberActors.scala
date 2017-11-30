@@ -11,7 +11,7 @@ class PerfectNumberActors extends Actor{
 
   def sumOfFactors(number: Int): Int = {
     var sum = 0
-    (1 to number).foreach(x => {
+    (1 to number).par.foreach(x => {
       if(number % x ==0)
         sum = sum + x
     })
