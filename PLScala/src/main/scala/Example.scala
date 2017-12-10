@@ -24,7 +24,7 @@ object Main extends App {
   //helloActor ! ("Adithya", 1000)
   parallelActors.tell(("Akhil", 1000), Actor.noSender)
   parallelActors.tell(("Tushar", 1000), Actor.noSender)
-  parallelActors.tell(("Nikitha", 1000), Actor.noSender)
+  parallelActors.tell(("Nikhita", 1000), Actor.noSender)
   parallelActors.tell(("Gayathri", 1000), Actor.noSender)
   parallelActors.tell(1, Actor.noSender)
 
